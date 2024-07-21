@@ -41,9 +41,79 @@
         align-items: center;
         justify-content: center;
       }
+      .box {
+        font-size: 5vw;
+        width: 5vw;
+        height: 5vw;
+        background: transparent;
+        position: relative;
+        animation-name: animate1;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: backwards;
+        animation-direction: alternate;
+        margin-top: 5%;
+      }
+
+      @keyframes animate1 {
+        0% {
+          transform: translateX(0);
+          background-color: red;
+        }
+
+        100% {
+          transform: translateX(1500%) scale(1.5) rotate(360deg);
+          background-color: blue;
+        }
+      }
+
+      @keyframes animate2 {
+        0% {
+          left: 0px;
+          top: 0px;
+          background-color: white;
+          border-radius: 0 0 0 0;
+        }
+
+        25% {
+          left: 300px;
+          top: 0px;
+          background-color: red;
+          border-radius: 50% 0 0 0;
+        }
+
+        50% {
+          left: 300px;
+          top: 300px;
+          background-color: green;
+          border-radius: 50% 50% 0 0;
+        }
+
+        75% {
+          left: 0px;
+          top: 300px;
+          background-color: blue;
+          border-radius: 50% 50% 50% 0;
+        }
+
+        100% {
+          left: 0px;
+          top: 0px;
+          background-color: white;
+          border-radius: 50% 50% 50% 50%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .box {
+          width: 30vw; /* 모바일 화면에서의 크기 조정 */
+          height: 30vw;
+        }
+      }
     </style>
   </head>
   <body>
+    <div class="box"></div>
     <section class="container py-5" id="skills">
       <div class="row mt-4 py-3">
         <div class="col-12 text-center">

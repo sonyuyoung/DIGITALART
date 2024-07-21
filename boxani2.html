@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Animation</title>
+    <style>
+      body {
+        background: #333;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* 화면 밖으로 넘어가는 부분을 숨김 */
+      }
+
+      .box {
+        font-size: 5rem; /* 기본 크기 조정 */
+        width: 5rem; /* 기본 크기 조정 */
+        height: 5rem; /* 기본 크기 조정 */
+        background: transparent;
+        position: relative;
+        animation-name: animate1;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-fill-mode: forwards; /* 마지막 상태를 유지 */
+        animation-direction: alternate;
+        margin-top: 5%;
+      }
+
+      @keyframes animate1 {
+        0% {
+          transform: translateX(0);
+          background-color: red;
+        }
+
+        100% {
+          transform: translateX(350px) scale(1.5) rotate(360deg);
+          background-color: blue;
+        }
+      }
+
+      /* PC에서의 애니메이션 설정 */
+      @media (min-width: 1024px) {
+        @keyframes animate1 {
+          0% {
+            transform: translateX(0);
+            background-color: red;
+          }
+
+          100% {
+            transform: translateX(1800px) scale(1.5) rotate(360deg); /* PC에서 더 큰 이동 거리 */
+            background-color: blue;
+          }
+        }
+      }
+
+      /* 모바일에서의 애니메이션 설정 */
+      @media (max-width: 768px) {
+        .box {
+          font-size: 5rem; /* 모바일 화면에서의 크기 조정 */
+          width: 5rem; /* 모바일 화면에서의 크기 조정 */
+          height: 5rem; /* 모바일 화면에서의 크기 조정 */
+          border-radius: 50%;
+        }
+
+        @keyframes animate1 {
+          0% {
+            transform: translateX(0);
+            background-color: red;
+          }
+
+          100% {
+            transform: translateX(450px) scale(1.2) rotate(360deg); /* 모바일에서 더 작은 이동 거리 */
+            background-color: blue;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>
