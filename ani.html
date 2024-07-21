@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title></title>
+    <style>
+      body {
+        background: #333;
+      }
+
+      .box {
+        font-size: 100px;
+        width: 100px;
+        height: 100px;
+        background: transparent;
+        position: relative;
+        animation-name: animate1;
+        /* 이름 */
+        animation-duration: 5s;
+        /* 시간 */
+        animation-iteration-count: infinite;
+        /* 횟수 */
+        animation-fill-mode: backwards;
+        /* 마지막 상태 */
+        animation-direction: alternate;
+        margin-top: 5%;
+        /* 진행방향 */
+      }
+
+      @keyframes animate1 {
+        0% {
+          transform: translateX(0);
+          background-color: red;
+        }
+
+        100% {
+          /* 1500%: 요소의 현재 너비의 1500% 만큼 이동합니다. 예를 들어, 요소의 너비가 100픽셀이라면, 1500%는 1500픽셀에 해당 */
+          transform: translateX(1500%) scale(1.5) rotate(360deg);
+          background-color: blue;
+        }
+      }
+
+      @keyframes animate2 {
+        /* % 방법 */
+        0% {
+          left: 0px;
+          top: 0px;
+          background-color: white;
+          border-radius: 0 0 0 0;
+        }
+
+        25% {
+          left: 300px;
+          top: 0px;
+          background-color: red;
+          border-radius: 50% 0 0 0;
+        }
+
+        50% {
+          left: 300px;
+          top: 300px;
+          background-color: green;
+          border-radius: 50% 50% 0 0;
+        }
+
+        75% {
+          left: 0px;
+          top: 300px;
+          background-color: blue;
+          border-radius: 50% 50% 50% 0;
+        }
+
+        100% {
+          left: 0px;
+          top: 0px;
+          background-color: white;
+          border-radius: 50% 50% 50% 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>
