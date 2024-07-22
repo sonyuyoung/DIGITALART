@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>순차적 이미지 표시</title>
+    <style>
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            opacity: 0; /* 초기 상태 숨기기 */
+            transition: opacity 1s ease-out;
+            margin-bottom: 20px; /* 이미지 간격 조절 */
+        }
+
+        .visible {
+            opacity: 1; /* 이미지가 보이도록 설정 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://cdn.imweb.me/upload/S2021020460b0ef649f001/c889ffbf1d8b4.png" alt="Image 1">
+            <img src="https://cdn.imweb.me/upload/S2021020460b0ef649f001/8bb2d60f18b40.png" alt="Image 2">
+            <img src="https://cdn.imweb.me/upload/S2021020460b0ef649f001/57fc5756cc38c.png" alt="Image 3">
+            <img src="https://cdn.imweb.me/upload/S2021020460b0ef649f001/18b2dd458236f.png" alt="Image 4">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('.image-container img');
+            let currentIndex = 0;
+
+            const showImage = (index) => {
+                if (index < images.length) {
+                    images[index].classList.add('visible');
+                    setTimeout(() => showImage(index + 1), 1000); // 각 이미지가 나타난 후 1초 대기
+                }
+            };
+
+            const onScroll = () => {
+                const scrollValue = window.scrollY;
+                console.log("scrollY", scrollValue); // 스크롤 위치 확인
+                if (scrollValue > 100) { // 스크롤 위치가 100px을 넘었을 때
+                    showImage(currentIndex); // 첫 번째 이미지부터 시작
+                    window.removeEventListener('scroll', onScroll); // 한 번만 실행되도록 스크롤 이벤트 제거
+                }
+            };
+
+            window.addEventListener('scroll', onScroll);
+        });
+    </script>
+</body>
+</html>

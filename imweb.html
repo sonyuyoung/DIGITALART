@@ -1,0 +1,119 @@
+<style>
+    #s202407192b2f7c86e2832, #s2024071271ccb17b37ac9, #s2024072154962db61ffe6, #s202407224d2e166a63f7d{  font-family: "Noto Sans KR", sans-serif;}
+  #text_w202407195dffb1f534dd4{animation: slide 2s;}
+    /* #img_w202407193db3f20e31e93{animation: object 2s;} */
+    
+    #img_w202407193db3f20e31e93 {
+        opacity: 0; /* 이미지 초기 상태 숨기기 */
+      }
+    
+      .scroll-text {
+        opacity: 0; /* 초기 상태 숨기기 */
+      }
+    
+    
+    /* #img_w202407193db3f20e31e93 애니메이션 정의 */
+    @keyframes object {
+      from {
+          opacity: 0;
+      }
+      to {
+       opacity: 1;
+    
+      }
+    }
+  
+    @keyframes objectBack {
+      from {
+         opacity: 1;
+      }
+      to {
+         opacity: 0;
+      }
+    }
+  
+    /* #text_w202407195dffb1f534dd4 애니메이션 정의 */
+    @keyframes slide {
+      from {
+        transform: translateX(-400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  
+    @keyframes back {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(-400px);
+        opacity: 0;
+      }
+    }
+  </style>
+  <script>
+    // #img_w202407193db3f20e31e93 요소를 선택
+    let imgElement = document.querySelector("#img_w202407193db3f20e31e93");
+  
+    // #text_w202407195dffb1f534dd4 요소를 선택
+    let textElement = document.querySelector("#text_w202407195dffb1f534dd4");
+     let scrollTextElements = document.querySelectorAll(".scroll-text");
+  
+    // 스크롤 이벤트 리스너 추가
+    window.addEventListener("scroll", function () {
+      let value = window.scrollY;
+      console.log("scrollY", value);
+  
+   
+      // #text_w202407195dffb1f534dd4 애니메이션 처리
+   /*   if (value > 400) {
+        textElement.style.animation = "back 1s ease-out forwards";
+      } else if (value < 400) {
+        textElement.style.animation = "slide 1s ease-out";
+  
+      }
+      
+         // #img_w202407193db3f20e31e93 애니메이션 처리
+   /*  if (value > 1100) {
+        imgElement.style.animation = "objectBack 2s ease-out forwards";
+      } 
+        else if (value < 1100) {
+        imgElement.style.animation = "object 2s ease-out";
+      }
+  */
+    // #img_w202407193db3f20e31e93 애니메이션 처리
+      //if (value > 1100) {
+       // imgElement.style.animation = "objectBack 2s ease-out forwards";
+     // } else (value > 340 && value <= 1100) {
+        //imgElement.style.animation = "object 2s ease-out forwards";
+      //} 
+    //}
+  //});
+   // #text_w202407195dffb1f534dd4 애니메이션 처리
+      
+      //
+  
+      if (value > 400) {
+          textElement.style.animation = "back 1s ease-out forwards";
+        } else if (value < 400) {
+          textElement.style.animation = "slide 1s ease-out";
+        }
+    
+        // #img_w202407193db3f20e31e93 애니메이션 처리
+        if (value > 1100) {
+          imgElement.style.animation = "objectBack 2s ease-out forwards";
+        } else if (value > 400 && value <= 1100) {
+          imgElement.style.animation = "object 2s ease-out forwards";
+       
+        } else {
+          imgElement.style.animation = "";
+          imgElement.style.opacity = 0; // 다시 숨기기
+        }
+      });
+    
+      
+  </script>
