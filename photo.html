@@ -1,0 +1,230 @@
+<style>
+  /*아래 png 이미지 01번 부터*/
+  #w20240722c9096f6702859 {
+    opacity: 0; /* 처음에 숨기기 */
+  }
+  #w202407226a350388575d7 {
+    opacity: 0;
+  }
+  /* 이미지 */
+  #w20240722e20df685bfa95,
+  #w20240722f2edd5104c1bf {
+    opacity: 0; /* 처음에 숨기기 */
+  }
+
+  /* 텍스트 */
+  #w202407195dffb1f534dd4 {
+    opacity: 0; /* 처음에 숨기기 */
+  }
+
+  .slide {
+    animation: slide 1s ease-out forwards;
+  }
+
+  .back {
+    animation: back 1s ease-out forwards;
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(-400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes back {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-400px);
+      opacity: 0;
+    }
+  }
+
+  .pic {
+    animation: pic 1s ease-out forwards;
+  }
+
+  .picBack {
+    animation: picBack 1s ease-out forwards;
+  }
+
+  @keyframes pic {
+    from {
+      transform: translateY(200px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes picBack {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+
+  .slideUp {
+    animation: slideUp 1s ease-out forwards;
+  }
+
+  .slideDown {
+    animation: slideDown 1s ease-out forwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(200px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(200px);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // 텍스트 요소 선택
+  let textElement = document.querySelector("#w202407195dffb1f534dd4");
+
+  // 이미지 요소 선택
+  let picElement = document.querySelector("#w20240722e20df685bfa95");
+  let picElement2 = document.querySelector("#w20240722f2edd5104c1bf");
+  let picElement3 = document.querySelector("#w20240722c9096f6702859");
+  let picElement4 = document.querySelector("#w202407226a350388575d7");
+  let picElement5 = document.querySelector("#w202407225b9d9104993d0");
+
+  // 스크롤 이벤트 리스너 추가
+  window.addEventListener("scroll", function () {
+    let value = window.scrollY;
+    console.log("scrollY", value);
+
+    if (value > 1300) {
+      textElement.classList.remove("slide");
+      textElement.classList.add("back");
+    } else if (value > 400 && value <= 1300) {
+      textElement.classList.remove("back");
+      textElement.classList.add("slide");
+    } else {
+      textElement.classList.remove("slide", "back");
+      textElement.style.opacity = 0; // 다시 숨기기
+    }
+
+    if (value > 1700) {
+      picElement.classList.remove("pic");
+      picElement.classList.add("picBack");
+    } else if (value > 700 && value <= 1700) {
+      picElement.classList.remove("picBack");
+      picElement.classList.add("pic");
+    } else {
+      picElement.classList.remove("pic", "picBack");
+      picElement.style.opacity = 0; // 다시 숨기기
+    }
+
+    if (value > 2100) {
+      picElement2.classList.remove("pic");
+      picElement2.classList.add("picBack");
+    } else if (value > 1100 && value <= 2100) {
+      picElement2.classList.remove("picBack");
+      picElement2.classList.add("pic");
+    } else {
+      picElement2.classList.remove("pic", "picBack");
+      picElement2.style.opacity = 0; // 다시 숨기기
+    }
+
+    if (value > 7200) {
+      picElement3.classList.remove("slideUp");
+      picElement3.classList.add("slideDown");
+    } else if (value > 6200 && value <= 7200) {
+      picElement3.classList.remove("slideDown");
+      picElement3.classList.add("slideUp");
+    } else {
+      picElement3.classList.remove("slideUp", "slideDown");
+      picElement3.style.opacity = 0; // 다시 숨기기
+    }
+
+    if (value > 8300) {
+      picElement4.classList.remove("slideUp");
+      picElement4.classList.add("slideDown");
+    } else if (value > 7300 && value <= 8300) {
+      picElement4.classList.remove("slideDown");
+      picElement4.classList.add("slideUp");
+    } else {
+      picElement4.classList.remove("slideUp", "slideDown");
+      picElement4.style.opacity = 0; // 다시 숨기기
+    }
+
+    if (value > 9300) {
+      picElement5.classList.remove("slideUp");
+      picElement5.classList.add("slideDown");
+    } else if (value > 8500 && value <= 9300) {
+      picElement5.classList.remove("slideDown");
+      picElement5.classList.add("slideUp");
+    } else {
+      picElement5.classList.remove("slideUp", "slideDown");
+      picElement5.style.opacity = 0; // 다시 숨기기
+    }
+  });
+
+  // 애니메이션 종료 이벤트 리스너 추가
+  textElement.addEventListener("animationend", function () {
+    if (!textElement.classList.contains("slide")) {
+      textElement.style.opacity = 0;
+    }
+  });
+
+  picElement.addEventListener("animationend", function () {
+    if (!picElement.classList.contains("pic")) {
+      picElement.style.opacity = 0;
+    }
+  });
+
+  picElement2.addEventListener("animationend", function () {
+    if (!picElement2.classList.contains("pic")) {
+      picElement2.style.opacity = 0;
+    }
+  });
+
+  picElement3.addEventListener("animationend", function () {
+    if (!picElement3.classList.contains("slideUp")) {
+      picElement3.style.opacity = 0;
+    }
+  });
+
+  picElement4.addEventListener("animationend", function () {
+    if (!picElement4.classList.contains("slideUp")) {
+      picElement4.style.opacity = 0;
+    }
+  });
+
+  picElement5.addEventListener("animationend", function () {
+    if (!picElement5.classList.contains("slideUp")) {
+      picElement5.style.opacity = 0;
+    }
+  });
+</script>
