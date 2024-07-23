@@ -1,0 +1,75 @@
+<!-- 
+transition : 일정시간동안 변화하는 기능
+transition 속성 4가지
+transition-property : 변화하는값 예시 ) width ,opacity , all
+transition-duration : 작동시간 (0.5s(초) ms(백))
+transition-delay : 기다렸다가 작동 
+
+transition-timing-function  변하는 속도의 패턴지정
+ease : 기본값 천천히 ?
+linear
+ease
+ease-in
+ease-out
+ease-in-out
+
+
+다같이 쓰는 방법
+            속성   시간  변화 늦어짐
+transition : width.35s ease.1s 
+transition:all.35s;
+https://wtss.tistory.com/
+https://codepen.io/yuhomyan/pen/OJMejWJ
+- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .click {
+        border-radius: 4px;
+        background-color: #f4511e;
+        border: none;
+        color: #fff;
+        text-align: center;
+        font-size: 28px;
+        padding: 20px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+      }
+
+      .click span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
+      .click span:after {
+        content: "\00bb";
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        border-start-start-radius: -20px;
+        transition: 0.5s;
+      }
+      /* 호버시 옆으로 슥움직임 */
+      .click:hover span {
+        padding-right: 25px;
+      }
+      /* .click span:after { opacity: 0;} 마우스올리면 오퍼시티가 1이되서 보임 */
+      .click:hover span::after {
+        opacity: 1;
+        right: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="click"><span>hover</span></div>
+  </body>
+</html>
