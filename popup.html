@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Slider</title>
+    <style>
+        #s202407244da1f427f5acc {
+            z-index: 99999;
+        }
+
+        #popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .popup-slide {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: calc(250px + 20px);
+        }
+
+        .slide {
+            flex: 0 0 250px;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-sizing: border-box;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .slide:last-child {
+            margin-right: 0;
+        }
+
+        #slide1 {
+            background-color: red;
+            background-image: url('https://cdn.imweb.me/upload/S2021020460b0ef649f001/6645874eea01c.gif');
+        }
+
+        #slide2 {
+            background-color: black;
+        }
+
+        .slide iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+        }
+
+        .arrow-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px;
+            border: 1px solid #fff;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 0;
+            font-size: 2rem;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev-button {
+            left: 25px;
+        }
+
+        .next-button {
+            right: 25px;
+        }
+
+        .close-button {
+            position: absolute;
+            bottom: 20%;
+            right: 50px;
+            color: #fff;
+            font-size: 18px;
+            width: 120px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            user-select: none;
+            font-weight: 300;
+        }
+
+        .snooze-button {
+            position: absolute;
+            bottom: 20%;
+            left: 50px;
+            font-weight: 300;
+            color: #fff;
+            font-size: 18px;
+            width: 180px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            #popup {
+                display: flex;
+            }
+
+            .close-button {
+                display: flex;
+            }
+
+            .snooze-button {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #popup {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="popup" class="popup">
+        <div id="prevButton" class="arrow-button prev-button">&lt;</div>
+        <div class="popup-content">
+            <div class="popup-slide" id="popup-slide">
+                <a href="https://digitalartdc.co.kr/landing" target="_blank" class="slide" id="slide1"></a>
+                <a href="https://www.youtube.com/embed/cV3Bv9VzJEc?si=lRdopEMEDHSFsHXR" target="_blank" class="slide" id="slide2">
+                    <iframe src="https://www.youtube.com/embed/cV3Bv9VzJEc?si=qD5qbL0jD7y0SVxb&start=205&autoplay=1&mute=1" allow="autoplay" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+            <div class="pagination" id="pagination">1/2</div>
+        </div>
+        <div id="nextButton" class="arrow-button next-button">&gt;</div>
+        <div id="closeButton" class="close-button">닫기</div>
+        <div id="snoozeButton" class="snooze-button">오늘 하루 안 보기</div>
+    </div>
+
+    <script>
+   let currentIndex = 0;
+let startX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let isDragging = false;
+let slideWidth;
+const slides = document.getElementById('popup-slide');
+const slideElements = document.querySelectorAll('.slide');
+const totalSlides = slideElements.length;
+
+function setSliderPosition() {
+    slideWidth = slideElements[0].offsetWidth + parseInt(window.getComputedStyle(slideElements[0]).marginRight);
+    slides.style.transform = `translateX(${-currentIndex * slideWidth}px)`;
+}
+
+function showSlide(index) {
+    if (index >= totalSlides) {
+        currentIndex = 0;
+    } else if (index < 0) {
+        currentIndex = totalSlides - 1;
+    } else {
+        currentIndex = index;
+    }
+    setSliderPosition();
+}
+
+document.getElementById('prevButton').addEventListener('click', function () {
+    showSlide(currentIndex - 1);
+});
+
+document.getElementById('nextButton').addEventListener('click', function () {
+    showSlide(currentIndex + 1);
+});
+
+window.addEventListener('resize', function () {
+    setSliderPosition();
+});
+
+// 드래그 및 터치 슬라이드 기능
+function handleTouchStart(event) {
+    startX = event.touches[0].clientX;
+    prevTranslate = currentTranslate;
+    isDragging = true;
+    slides.style.transition = 'none'; // 드래그 중 애니메이션 비활성화
+}
+
+function handleTouchMove(event) {
+    if (!isDragging) return;
+    const currentX = event.touches[0].clientX;
+    currentTranslate = prevTranslate + (currentX - startX);
+    slides.style.transform = `translateX(${currentTranslate}px)`;
+}
+
+function handleTouchEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    slides.style.transition = ''; // 애니메이션 복원
+
+    const movedBy = currentTranslate - prevTranslate;
+    if (movedBy < -slideWidth / 2) {
+        showSlide(currentIndex + 1);
+    } else if (movedBy > slideWidth / 2) {
+        showSlide(currentIndex - 1);
+    } else {
+        // 드래그가 충분하지 않을 경우, 원래 위치로 복원
+        setSliderPosition();
+    }
+}
+
+function handleMouseDown(event) {
+    startX = event.clientX;
+    prevTranslate = currentTranslate;
+    isDragging = true;
+    slides.style.transition = 'none'; // 드래그 중 애니메이션 비활성화
+}
+
+function handleMouseMove(event) {
+    if (!isDragging) return;
+    const currentX = event.clientX;
+    currentTranslate = prevTranslate + (currentX - startX);
+    slides.style.transform = `translateX(${currentTranslate}px)`;
+}
+
+function handleMouseUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    slides.style.transition = ''; // 애니메이션 복원
+
+    const movedBy = currentTranslate - prevTranslate;
+    if (movedBy < -slideWidth / 2) {
+        showSlide(currentIndex + 1);
+    } else if (movedBy > slideWidth / 2) {
+        showSlide(currentIndex - 1);
+    } else {
+        // 드래그가 충분하지 않을 경우, 원래 위치로 복원
+        setSliderPosition();
+    }
+}
+
+slides.addEventListener('touchstart', handleTouchStart);
+slides.addEventListener('touchmove', handleTouchMove);
+slides.addEventListener('touchend', handleTouchEnd);
+
+slides.addEventListener('mousedown', handleMouseDown);
+slides.addEventListener('mousemove', handleMouseMove);
+slides.addEventListener('mouseup', handleMouseUp);
+slides.addEventListener('mouseleave', handleMouseUp);
+
+setSliderPosition();
+
+    </script>
+</body>
+
+</html>
