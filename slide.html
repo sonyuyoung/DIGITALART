@@ -10,32 +10,31 @@
     <style>
         #popup {
             display: none;
-            /* 기본 상태에서는 숨김 */
             position: fixed;
-            bottom: 0; /* 화면 바닥에 고정 */
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* 원하는 높이로 설정, 스와이퍼 컨테이너 높이와 일치 */
+            height: 100%;
             z-index: 99999;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
         }
 
         .swiper-container {
             width: 100%;
-            height: 340px;
+            height: 300px;
             position: relative;
         }
 
         .swiper-wrapper {
-            height: 340px;
+            height: 280px;
             display: flex;
         }
 
         .swiper-slide {
             position: relative;
-            border-radius: 30px;
+            border-radius: 20px;
             text-align: center;
             font-size: 18px;
             background: #fff;
@@ -49,28 +48,34 @@
             overflow: hidden;
         }
 
+
         .swiper-slide-active {
             transform: scale(1);
         }
+
 
         .swiper-slide img,
         .swiper-slide iframe {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none;
         }
+
 
         .swiper-slide a {
             display: block;
             width: 100%;
             height: 100%;
+            pointer-events: auto;
         }
+
 
         .autoplay-progress {
             position: absolute;
             right: 16px;
             bottom: 16px;
-            z-index: 20; /* 페이지네이션이 이미지보다 위에 위치하도록 조정 */
+            z-index: 20;
             width: 48px;
             height: 48px;
             display: flex;
@@ -79,6 +84,7 @@
             font-weight: bold;
             color: var(--swiper-theme-color);
         }
+
 
         .autoplay-progress svg {
             --progress: 0;
@@ -99,11 +105,11 @@
         .swiper-pagination {
             margin-top: 400px;
             text-align: center;
-            z-index: 10; /* 페이지네이션이 이미지와 겹치지 않도록 조정 */
+            z-index: 10;
         }
 
         .swiper-pagination-bullet {
-            background: rgba(0, 0, 0, 0.2);
+            background: #fff;
             width: 12px;
             height: 12px;
             border-radius: 50%;
@@ -114,28 +120,26 @@
             background: #000;
         }
 
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: #000;
+        .button-next,
+        .button-prev {
+            color: #fff;
             width: 44px;
             height: 44px;
             border-radius: 50%;
         }
 
-        .swiper-button-next {
+        .button-next {
             right: 30px;
         }
 
-        .swiper-button-prev {
-            left: 30px;
+        .button-next {
+            right: 30px;
         }
 
         .bottom-buttons {
-            position: absolute;
-            width: 100%;
+    
+            width: 300px;
             top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
             justify-content: space-between;
             padding: 0 20px;
@@ -143,28 +147,25 @@
         }
 
         .bottom-button {
-            background: 0;
+            background-color: #fff;
             color: #000;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             font-size: 14px;
+            margin-top: 40px;
         }
 
-        .bottom-button.close {
-            background: 0;
-            color: #fff;
-            font-size: 18px;
-            margin-right: 50px;
-            z-index: 999999;
-        }
 
-        .bottom-button.today {
-            background: 0;
-            margin-left: 40px;
-            color: #fff;
-            font-size: 18px;
-        }
+.bottom-button.today {
+    background: transparent;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+text-align: center;
+ 
+}
+
 
         button:focus {
             outline: 0;
@@ -172,30 +173,72 @@
 
         @media (max-width: 768px) {
             #popup {
-                display: flex; /* 모바일에서 보이도록 설정 */
+                display: flex;
+                /* 모바일에서 보이도록 설정 */
             }
         }
 
         @media (min-width: 769px) {
             #popup {
-                display: none; /* 데스크톱에서는 보이지 않도록 설정 */
+                display: none;
+                /* 데스크톱에서 보이지 않도록 설정 */
             }
+        }
+        
+    
+
+        button:focus {
+            outline: 0;
+        }
+        
+        .btn_close {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 15%;
+            right: 20px;
+            background: none;
+        }
+
+        .btn_close:before,
+        .btn_close:after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: #fff;
+        }
+
+        .btn_close:before {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .btn_close:after {
+            transform: translate(-50%, -50%) rotate(45deg);
         }
     </style>
 </head>
 
 <body>
     <section id="popup">
+        <button id="closeButton" class="bottom-button close btn_close"> </button>
         <div class="swiper-container">
+       
             <div class="swiper-wrapper">
+                
                 <div class="swiper-slide">
-                    <a href="https://digitalartdc.co.kr/landing" target="_blank">
+                    
+                    <a href="https://digitalartdc.co.kr/landing" target="_top">
                         <img src="https://cdn.imweb.me/upload/S2021020460b0ef649f001/6645874eea01c.gif" alt="Slide 1">
                     </a>
                 </div>
                 <div class="swiper-slide">
-                    <a href="https://www.youtube.com/watch?v=cV3Bv9VzJEc" target="_blank">
-                        <iframe src="https://www.youtube.com/embed/cV3Bv9VzJEc?si=qD5qbL0jD7y0SVxb&start=205&autoplay=1&mute=1" allow="autoplay" frameborder="0" allowfullscreen></iframe>
+                    <a href="https://www.youtube.com/watch?v=cV3Bv9VzJEc" target="_top">
+                        <iframe
+                            src="https://www.youtube.com/embed/cV3Bv9VzJEc?si=qD5qbL0jD7y0SVxb&start=205&autoplay=1&mute=1"
+                            allow="autoplay; fullscreen" frameborder="0" allowfullscreen></iframe>
                     </a>
                 </div>
                 <div class="swiper-slide">
@@ -214,16 +257,16 @@
                     </a>
                 </div>
             </div>
-            <!-- 페이지네이션 -->
+           
+          
+        
+            <div class="bottom-button today">1일동안보지않기</div>
+
+
             <div id="swiper-pagination" class="swiper-pagination"></div>
-            <!-- 하단 버튼들 -->
-            <div class="bottom-buttons">
-                <button id="snoozeButton" class="bottom-button today">1일동안 보지 않음</button>
-                <button id="close" class="bottom-button close">닫기</button>
-            </div>
-            <!-- 내비게이션 화살표 -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+
+            <div class="swiper-button-prev button-prev"></div>
+            <div class="swiper-button-next button-next"></div>
             <div class="autoplay-progress">
                 <svg viewBox="0 0 48 48">
                     <circle cx="24" cy="24" r="20"></circle>
@@ -275,56 +318,62 @@
             progressContent.textContent = `${Math.ceil(time / 1000)}s`;
         });
 
-        function closePopup() {
+
+        document.querySelectorAll('.swiper-slide').forEach(slide => {
+            slide.addEventListener('click', function () {
+                const link = this.querySelector('a');
+                if (link) {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+
+        document.getElementById('closeButton').addEventListener('click', function (event) {
+            event.preventDefault();
             document.getElementById('popup').style.display = 'none';
-        }
+        });
 
-        function snoozePopup() {
+        document.getElementById('snoozeButton').addEventListener('click', function (event) {
+            event.preventDefault();
             const now = new Date();
-            const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
-            const futureDate = new Date(now.getTime() + oneDayInMilliseconds);
-            localStorage.setItem('popup-snooze', futureDate.toISOString());
-            closePopup();
-        }
+            const snoozeUntil = new Date();
+            snoozeUntil.setDate(now.getDate() + 1); // 1일 후
+            localStorage.setItem('snoozeUntil', snoozeUntil.toISOString());
+            document.getElementById('popup').style.display = 'none';
+        });
 
-        document.getElementById('close').addEventListener('click', closePopup);
-        document.getElementById('snoozeButton').addEventListener('click', snoozePopup);
-
-        function checkSnooze() {
-            const snoozeDate = localStorage.getItem('popup-snooze');
-            const now = new Date();
+        window.onload = function () {
+            const snoozeUntil = localStorage.getItem('snoozeUntil');
             const popup = document.getElementById('popup');
 
-            if (snoozeDate) {
-                const snoozeDateObj = new Date(snoozeDate);
-                if (now < snoozeDateObj) {
+            if (snoozeUntil) {
+                const snoozeDate = new Date(snoozeUntil);
+                if (new Date() < snoozeDate) {
                     popup.style.display = 'none';
                 } else {
-                    popup.style.display = 'flex';
+                    localStorage.removeItem('snoozeUntil');
+                    if (window.innerWidth <= 768) {
+                        popup.style.display = 'flex';
+                    } else {
+                        popup.style.display = 'none';
+                    }
                 }
             } else {
-                popup.style.display = 'flex';
+                if (window.innerWidth <= 768) {
+                    popup.style.display = 'flex';
+                } else {
+                    popup.style.display = 'none';
+                }
             }
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth <= 768) {
+                    popup.style.display = 'flex';
+                } else {
+                    popup.style.display = 'none';
+                }
+            });
         }
-
-        // 페이지 로드 시 팝업 표시 여부 결정
-        window.addEventListener('load', () => {
-            // 데스크톱 화면에서는 팝업을 숨기도록 설정
-            if (window.innerWidth >= 769) {
-                document.getElementById('popup').style.display = 'none';
-            } else {
-                checkSnooze(); // 모바일 화면에서는 snooze 여부에 따라 팝업을 표시하거나 숨기도록 설정
-            }
-        });
-
-        // 화면 크기 변경 시 팝업 상태 업데이트
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 769) {
-                document.getElementById('popup').style.display = 'none';
-            } else {
-                checkSnooze();
-            }
-        });
     </script>
 </body>
 
