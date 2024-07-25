@@ -15,6 +15,7 @@
     <style>
       #popup {
         display: none;
+        visibility: hidden;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -30,8 +31,6 @@
         width: 100%;
         height: 300px;
         position: relative;
-        justify-content: center;
-        align-items: center;
       }
 
       .swiper-wrapper {
@@ -41,7 +40,7 @@
 
       .swiper-slide {
         position: relative;
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
         text-align: center;
         font-size: 18px;
         background: #fff;
@@ -85,7 +84,7 @@
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        color: var(--swiper-theme-color); /* 시간 표시 색상 */
+        color: var(--swiper-theme-color);
       }
 
       .autoplay-progress svg {
@@ -97,12 +96,13 @@
         width: 100%;
         height: 100%;
         stroke-width: 4px;
-        stroke: white; /* 색상 변경 */
+        stroke: var(--swiper-theme-color);
         fill: none;
         stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
         stroke-dasharray: 125.6;
         transform: rotate(-90deg);
       }
+
       .swiper-pagination {
         margin-top: 400px;
         text-align: center;
@@ -129,9 +129,17 @@
         border-radius: 50%;
       }
 
+      .button-next {
+        right: 30px;
+      }
+
       .bottom-buttons {
+        position: absolute;
         width: 300px;
         top: 100%;
+        left: 50%;
+        background-color: #000;
+        transform: translateX(-50%);
         display: flex;
         justify-content: space-between;
         padding: 0 20px;
@@ -139,21 +147,29 @@
       }
 
       .bottom-button {
-        background-color: #fff;
+        background: 0;
         color: #000;
         border: none;
         padding: 10px 20px;
         cursor: pointer;
         font-size: 14px;
-        margin-top: 40px;
       }
 
+      .bottom-button.close,
       .bottom-button.today {
         background: transparent;
         color: #fff;
         font-size: 18px;
         cursor: pointer;
-        text-align: center;
+        text-decoration: none;
+        transition: none;
+      }
+      .bottom-button.close:hover,
+      .bottom-button.today:hover {
+        background: transparent !important;
+        color: #fff !important;
+        border: none !important;
+        box-shadow: none !important;
       }
 
       button:focus {
@@ -163,54 +179,21 @@
       @media (max-width: 768px) {
         #popup {
           display: flex;
-          /* 모바일에서 보이도록 설정 */
+          visibility: visible;
         }
       }
 
       @media (min-width: 769px) {
         #popup {
           display: none;
-          /* 데스크톱에서 보이지 않도록 설정 */
+          visibility: hidden;
         }
-      }
-
-      button:focus {
-        outline: 0;
-      }
-
-      .btn_close {
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        top: 10%;
-        right: 20px;
-        background: none;
-      }
-
-      .btn_close:before,
-      .btn_close:after {
-        content: "";
-        width: 40px;
-        height: 1px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        background: #fff;
-      }
-
-      .btn_close:before {
-        transform: translate(-50%, -50%) rotate(-45deg);
-      }
-
-      .btn_close:after {
-        transform: translate(-50%, -50%) rotate(45deg);
       }
     </style>
   </head>
 
   <body>
     <section id="popup">
-      <button id="closeButton" class="bottom-button close btn_close"></button>
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
@@ -247,24 +230,25 @@
             </a>
           </div>
         </div>
-
-        <div class="bottom-button today">1일동안보지않기</div>
-
+        <div class="bottom-buttons">
+          <span id="snoozeButton" class="bottom-button today"
+            >1일동안 보지 않음</span
+          >
+          <span id="closeButton" class="bottom-button close">닫기</span>
+        </div>
         <div id="swiper-pagination" class="swiper-pagination"></div>
 
         <div class="swiper-button-prev button-prev"></div>
-
         <div class="swiper-button-next button-next"></div>
         <div class="autoplay-progress">
           <svg viewBox="0 0 48 48">
             <circle cx="24" cy="24" r="20"></circle>
           </svg>
-          <span style="color: #fff"></span>
+          <span></span>
         </div>
       </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
       // Swiper 초기화
       const swiper = new Swiper(".swiper-container", {
@@ -273,12 +257,12 @@
           clickable: true,
         },
         navigation: {
-          nextEl: ".button-next",
-          prevEl: ".button-prev",
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         },
         slidesPerView: "auto",
         centeredSlides: true,
-        spaceBetween: 30,
+        spaceBetween: 10,
         autoplay: {
           delay: 2500,
           disableOnInteraction: false,
@@ -321,6 +305,8 @@
         .addEventListener("click", function (event) {
           event.preventDefault();
           document.getElementById("popup").style.display = "none";
+          document.getElementById("popup").style.visibility = "hidden";
+          localStorage.setItem("popupClosed", "true");
         });
 
       document
@@ -332,37 +318,51 @@
           snoozeUntil.setDate(now.getDate() + 1); // 1일 후
           localStorage.setItem("snoozeUntil", snoozeUntil.toISOString());
           document.getElementById("popup").style.display = "none";
+          document.getElementById("popup").style.visibility = "hidden";
         });
 
       window.onload = function () {
         const snoozeUntil = localStorage.getItem("snoozeUntil");
         const popup = document.getElementById("popup");
 
+        if (localStorage.getItem("popupClosed") === "true") {
+          popup.style.display = "none";
+          popup.style.visibility = "hidden";
+          return;
+        }
+
         if (snoozeUntil) {
           const snoozeDate = new Date(snoozeUntil);
           if (new Date() < snoozeDate) {
             popup.style.display = "none";
+            popup.style.visibility = "hidden";
           } else {
             localStorage.removeItem("snoozeUntil");
             if (window.innerWidth <= 768) {
               popup.style.display = "flex";
+              popup.style.visibility = "visible";
             } else {
               popup.style.display = "none";
+              popup.style.visibility = "hidden";
             }
           }
         } else {
           if (window.innerWidth <= 768) {
             popup.style.display = "flex";
+            popup.style.visibility = "visible";
           } else {
             popup.style.display = "none";
+            popup.style.visibility = "hidden";
           }
         }
 
         window.addEventListener("resize", function () {
           if (window.innerWidth <= 768) {
             popup.style.display = "flex";
+            popup.style.visibility = "visible";
           } else {
             popup.style.display = "none";
+            popup.style.visibility = "hidden";
           }
         });
       };
